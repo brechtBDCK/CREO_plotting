@@ -1,38 +1,35 @@
 input:
+  # Path to your Excel (single-sheet)
   excel_path: "/home/bdck/PROJECTS_WSL/CREO/650rpm_diag_damp_3D (Dynamic).xlsx"
-  x_col: 0            # or "vel_onbalans_Hz"
-  usecols: null       # or ["vel_onbalans_Hz", "...ROA (N)", "...ROV (N)"]
-    
-  # New (simple) toggles:
-  order: index        # index | x   (default: index = keep natural row order)
-  dropna_x: true      # drop rows where x is NaN
+
+  # X column: integer index, column name, or "all" for chooser in HTML
+  x_col: "all"          # e.g. 0 | "vel_onbalans_Hz" | "all"
+
+  # Optional: restrict columns loaded from Excel (speeds up large files)
+  usecols: null         # e.g. ["vel_onbalans_Hz", "...ROA (N)", "...ROV (N)"]
 
 filter:
-  # Either absolute rows:
+  # Absolute rows (optional):
   # start_row: 0
   # end_row: 10000
 
-  # Or fraction window:
+  # Fraction window (keeps rows between start and end)
   keep_fraction:
-    which: window
-    start: 0
+    which: window       # window | first | last | middle
+    start: 0.0
     end: 0.5
+    # value: 0.3        # for first/last/middle only
 
 plot:
-  engine: plotly
-  variables: all      # or list of column names
-  combine: grid   # together|separate(several figures)|grid(one figure with subplots)
+  variables: "all"      # "all" = interactive Y chooser, or list of names for fixed Y
   title: "650rpm - diag_damp_3D"
   plotly_style: plotly_white
   line_width: 1.5
-  line_shape: linear   # linear | spline
-  connect_gaps: false  # don’t draw across NaNs
+  line_shape: linear     # linear | spline
+  connect_gaps: false    # don’t draw across NaNs
 
 output:
   dir: plots_out
   save: true
-  format: html        # (plotly HTML is great for interactivity)
+  format: html           # html | png | pdf | svg (static formats need 'kaleido')
   show: false
-
-
-
