@@ -1,64 +1,38 @@
-# =====================
-# Config for plot_from_excel.py
-# =====================
-
 input:
-  # REQUIRED: path to your Excel file (single-sheet workbook)
   excel_path: "/home/bdck/PROJECTS_WSL/CREO/650rpm_diag_damp_3D (Dynamic).xlsx"
-
-  # If omitted or not found, the first column will be used as x.
-  # Can be integer index (0-based) or a column name.
-  x_col: 0
-
-  # Optional: restrict which columns are loaded from Excel.
-  # Can be Excel range string (e.g., "A:D") or an explicit list of column names.
-  usecols: ["vel_onbalans_Hz", "650rpm_diag_damp_3D::Load_damper_ROA (N)", "650rpm_diag_damp_3D::Load_damper_ROV (N)"]
+  x_col: 0            # or "vel_onbalans_Hz"
+  usecols: null       # or ["vel_onbalans_Hz", "...ROA (N)", "...ROV (N)"]
+    
+  # New (simple) toggles:
+  order: index        # index | x   (default: index = keep natural row order)
+  dropna_x: true      # drop rows where x is NaN
 
 filter:
-  # Slice rows by integer positions (0-based).
-  # Set range_by: rows to enable. If null, no row slicing happens.
-  range_by: null   # rows | null
-  start_row: 0
-  end_row:
+  # Either absolute rows:
+  # start_row: 0
+  # end_row: 10000
 
-  # Keep a FRACTION of the (already-sliced) rows:
-  # - which: first | last | middle | window
-  # - first  : keep the first fraction (e.g., 0.5 = first half)
-  # - last   : keep the last fraction
-  # - middle : keep the centered fraction (e.g., 0.1 = middle 10%)
-  # - window : keep rows between [start, end] expressed as fractions of length
-  #              (requires start and end, 0.0 <= start < end <= 1.0)
+  # Or fraction window:
   keep_fraction:
-    value:        # e.g., 0.5 for half, 0.1 for 10%; leave empty to disable
-    which: first  # first | last | middle | window
-    start:        # only for which: window, e.g., 0.25
-    end:          # only for which: window, e.g., 0.75
+    which: window
+    start: 0
+    end: 0.5
 
 plot:
-  # Plot backend
-  engine: plotly   # plotly | seaborn
-
-  # Variables to plot on Y.
-  # - "all": all numeric columns except x_col
-  # - Or provide explicit list, e.g. ["Var1", "Var2"]
-  variables: all
-
-  # Layout / combining
-  # combine controls how the selected variables are arranged:
-  # - together : all variables overlaid in one interactive plot (one set of axes)
-  # - separate : one figure per variable (each saved separately)
-  # - grid     : one figure containing multiple subplots (grid) with subplot titles
-  combine: together   # together | separate | grid
-  grid_cols: 2        # only used when combine: grid
-
-  # Styling
-  title: "Excel Plots"
-  plotly_style: plotly_white    # Plotly theme (ignored for seaborn)
-  seaborn_style: whitegrid      # Seaborn style if using seaborn
+  engine: plotly
+  variables: all      # or list of column names
+  combine: grid   # together|separate(several figures)|grid(one figure with subplots)
+  title: "650rpm - diag_damp_3D"
+  plotly_style: plotly_white
   line_width: 1.5
+  line_shape: linear   # linear | spline
+  connect_gaps: false  # don’t draw across NaNs
 
 output:
-  dir: "plots_out"
+  dir: plots_out
   save: true
-  format: html   # html|png|pdf|svg (for plotly static export install 'kaleido')
+  format: html        # (plotly HTML is great for interactivity)
   show: false
+
+
+

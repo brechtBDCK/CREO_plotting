@@ -1,3 +1,5 @@
 venv_creo/
 *.grt
 *.xlsx
+*.html
+*.png
