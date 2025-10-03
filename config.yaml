@@ -1,6 +1,6 @@
 input:
-  # Path to your Excel (single-sheet)
-  excel_path: "/home/bdck/PROJECTS_WSL/CREO/650rpm_diag_damp_3D (Dynamic).xlsx"
+  # Path to Excel (single-sheet)
+  excel_path: "/mnt/c/Users/bdck/Documents/CREO/UNICA/AA_manual_copy_for_educational/650rpm_diag_damp_3D (Dynamic).xlsx"
 
   # X column: integer index, column name, or "all" for chooser in HTML
   x_col: "all"          # e.g. 0 | "vel_onbalans_Hz" | "all"
@@ -9,7 +9,7 @@ input:
   usecols: null         # e.g. ["vel_onbalans_Hz", "...ROA (N)", "...ROV (N)"]
 
 filter:
-  # Absolute rows (optional):
+  # Absolute rows:
   # start_row: 0
   # end_row: 10000
 

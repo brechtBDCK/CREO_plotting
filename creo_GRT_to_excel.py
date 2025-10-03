@@ -68,9 +68,16 @@ def grt_to_excel(input_path, output_dir=None):
         df.to_excel(writer, index=False, sheet_name="Data")
 
     print("Excel written:", out_xlsx)
+    
+import platform
+def normalize_path(path):
+    if "microsoft" in platform.release().lower():  # running in WSL
+        import subprocess
+        return subprocess.check_output(["wslpath", path]).decode().strip()
+    return path  # normal Windows or Linux
 
 if __name__ == "__main__":
-    grt_to_excel(
-        "/home/bdck/PROJECTS_WSL/CREO/testgrt2.grt",
-        "/home/bdck/PROJECTS_WSL/CREO/"
-    )
+    input_path = "C:\\Users\\bdck\\Documents\\CREO\\UNICA\\AA_manual_copy_for_educational\\650_rpm_diag_damp_3D_dynamic.grt"
+    output_path = "C:\\Users\\bdck\\Documents\\CREO\\UNICA\\AA_manual_copy_for_educational\\"
+    grt_to_excel(normalize_path(input_path), normalize_path(output_path))
+
